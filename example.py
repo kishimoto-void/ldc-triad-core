@@ -1,6 +1,16 @@
-from ldc.triad import MinimalTriad
+from ldc.triad import CreativeTriad
 
-triad = MinimalTriad(phase_pattern='random', sensitivity=1.7)
-print('Running Minimal Triad...')
-results = triad.run(steps=200)
-print('Done. Final total_v approx:', sum(s.v for s in triad.states))
+print('=== CreativeTriad with Diversity, Novelty & GPS-tagged Hallucination ===')
+creative = CreativeTriad(halluc_intensity=0.45, creativity_threshold=0.7)
+results = creative.run(steps=300)
+
+print('\nFinal Summary:')
+print(creative.get_creativity_summary())
+
+print('\nSample recent tagged events (GPS probe):')
+for event in creative.metrics.tagged_events[-5:]:
+    print(event['mark'], '-> GPS:', event['gps'])
+
+print('\nLast few step results (diversity/novelty/creative_events):')
+for r in results[-5:]:
+    print(r)
